@@ -124,7 +124,6 @@ ANSWERABLE / CONFLICTING / NO_EVIDENCE
 
 ---
 
-````markdown
 ## 🚀 Quickstart
 
 ### 1. Clone and install
@@ -191,7 +190,6 @@ streamlit run app.py
 ```
 
 - Streamlit defaults to port 8501. If running inside Codespaces / a container, forward port 8501 and open the preview or browser.
-````
 
 ### Dependencies & environment
 
