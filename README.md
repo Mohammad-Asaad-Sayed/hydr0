@@ -43,7 +43,7 @@
 
 Agent memory layers (mem0, basic RAG) fail the moment facts **change over time**.
 
-If a user says *"I live in New York"* in Session 1 and *"I moved to London"* in Session 2, a vector store retrieves **both** and lets the LLM guess which one is current. It has no structural concept of:
+If a user says *"I live in New York"* in Session 1 and *"I moved to London"* in Session 2, a vector store retrieves **both** and lets the LLM guess which one is current. It has no structural conce[...]
 
 | Challenge | What goes wrong |
 |:---|:---|
@@ -60,7 +60,7 @@ The [Track 3 brief](https://hackhydra.hydradb.com) nails it: long-context models
 
 **HydraMem** replaces similarity-ranked guessing with **deterministic, graph-native temporal resolution**, built on [HydraDB](https://hydradb.com)'s Context Graphs and Bring-Your-Own-Graph (BYOG).
 
-When a new fact arrives, HydraMem declares an explicit **`SUPERSEDES`** edge to the previous fact of the same property. Time becomes a **graph edge**, not metadata. At query time, a deterministic resolver walks the chain and returns one of three first-class states:
+When a new fact arrives, HydraMem declares an explicit **`SUPERSEDES`** edge to the previous fact of the same property. Time becomes a **graph edge**, not metadata. At query time, a deterministic [...]
 
 <div align="center">
 
@@ -120,7 +120,7 @@ deterministic resolver
 ANSWERABLE / CONFLICTING / NO_EVIDENCE
 ```
 
-> **Design principle:** HydraDB handles *retrieval and graph structure*. The resolver handles *truth*. The LLM (when used) handles only *extraction*. Retrieval, reasoning and parsing are cleanly separated — the LLM never decides what's true.
+> **Design principle:** HydraDB handles *retrieval and graph structure*. The resolver handles *truth*. The LLM (when used) handles only *extraction*. Retrieval, reasoning and parsing are cleanly [...]
 
 ---
 
@@ -130,30 +130,70 @@ ANSWERABLE / CONFLICTING / NO_EVIDENCE
 
 ```bash
 git clone https://github.com/Mohammad-Asaad-Sayed/hydr0.git
-cd hydramem
+cd hydr0
+```
 
+### 2. Create and activate a virtual environment
+
+POSIX (macOS / Linux):
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Windows (PowerShell):
+```powershell
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+.venv\Scripts\Activate.ps1
+```
+
+Windows (cmd.exe):
+```cmd
+python -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+### 3. Install requirements
+
+```bash
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 2. Set your HydraDB API key
+(If you don't have requirements.txt, install packages individually or add one.)
 
+### 4. Set your HydraDB API key
+
+POSIX:
 ```bash
-export HYDRA_DB_API_KEY="your_key_here"   # from dashboard.hydradb.com
+export HYDRA_DB_API_KEY="your_key_here"
 ```
 
-### 3. Run the terminal demo
+PowerShell:
+```powershell
+$env:HYDRA_DB_API_KEY = "your_key_here"
+```
+
+cmd.exe:
+```cmd
+set HYDRA_DB_API_KEY=your_key_here
+```
+
+### 5. Run the terminal demo
 
 ```bash
 python demo.py
 ```
 
-### 4. Or launch the Streamlit UI
+### 6. Run the Streamlit UI
 
 ```bash
 streamlit run app.py
 ```
+
+- Streamlit defaults to port 8501. If running inside Codespaces / a container, forward port 8501 and open the preview or browser.
+
+---
 
 ### Dependencies & environment
 
@@ -259,7 +299,7 @@ Answer: dark mode
 Chunks retrieved: 3
 ```
 
-> 💡 **The money shot:** add *"Actually, I just moved to Tokyo."* in the Streamlit UI, re-query, and watch the chain become `New York → London → Tokyo` — a **live, user-driven supersession** in real time.
+> 💡 **The money shot:** add *"Actually, I just moved to Tokyo."* in the Streamlit UI, re-query, and watch the chain become `New York → London → Tokyo` — a **live, user-driven supersessio[...] 
 
 ---
 
@@ -269,7 +309,7 @@ HydraDB is the **memory substrate *and* the graph**. Without it, HydraMem would 
 
 ### 1. Bring Your Own Graph (ingestion)
 
-Each extracted fact generates a BYOG payload with `ENTITY`/`VALUE` nodes and explicit `SUPERSEDES` relation edges. These arrive tagged `origin: "byog"` server-side — genuinely ours, not auto-extracted.
+Each extracted fact generates a BYOG payload with `ENTITY`/`VALUE` nodes and explicit `SUPERSEDES` relation edges. These arrive tagged `origin: "byog"` server-side — genuinely ours, not auto-ex[...]
 
 ```python
 relations.append({
@@ -283,7 +323,7 @@ relations.append({
 
 ### 2. Context Graphs (retrieval)
 
-We query with `graph_context=True` + `query_by="hybrid"` + `mode="thinking"`, retrieving `chunk_relations` and `query_paths` triplets. The resolver walks these deterministic edges instead of trusting ranking.
+We query with `graph_context=True` + `query_by="hybrid"` + `mode="thinking"`, retrieving `chunk_relations` and `query_paths` triplets. The resolver walks these deterministic edges instead of trus[...]
 
 ### 3. What we'd lose without HydraDB
 
@@ -314,11 +354,11 @@ We benchmarked HydraMem against a standard vector-store memory layer (TF-IDF cos
 
 **HydraMem accuracy: 100% (6/6)** vs **Vector baseline: 33.3% (2/6)**
 
-> ⚠️ **Honest caveat:** we use TF-IDF as a *structural-failure proxy*, not a tuned embedding model. The failure mode is structural (no graph/temporal reasoning), not embedding-quality — a strong embedding model would still rank all three location facts as similarly relevant, because nothing in the *text itself* marks any one as current. The multi-hop case is the strongest argument: vectors cannot compose it at all.
+> ⚠️ **Honest caveat:** we use TF-IDF as a *structural-failure proxy*, not a tuned embedding model. The failure mode is structural (no graph/temporal reasoning), not embedding-quality — a s[...]
 
 ### Local regression suite (35 synthetic sessions)
 
-All **11/11** regression cases pass across temporal, overwrite, static, abstention, conflict, property-isolation, revision-chain, and open-predicate types. See `notebooks/HydraMem_v2_2_Hardened.ipynb`.
+All **11/11** regression cases pass across temporal, overwrite, static, abstention, conflict, property-isolation, revision-chain, and open-predicate types. See `notebooks/HydraMem_v2_2_Hardened.i[...]
 
 ---
 
@@ -334,7 +374,7 @@ Measured live against the hosted HydraDB API (Aug 17, 2026, `repeats=2`).
 | **Write indexing** | 3,402 ms / fact | One-time graph-edge build |
 | **Total to ready** | ~3.5 s / fact | Ingest + indexing |
 
-> **The tradeoff:** we pay ~3.4 s *once* at write-time to build the graph, so every read gets structural, deterministic truth instead of similarity-ranked guessing. For agent memory — sparse writes, frequent reads — this is the correct tradeoff.
+> **The tradeoff:** we pay ~3.4 s *once* at write-time to build the graph, so every read gets structural, deterministic truth instead of similarity-ranked guessing. For agent memory — sparse wr[...]
 >
 > Latency includes network round-trips to the hosted API. A self-hosted instance or cached graph context would reduce it significantly.
 
@@ -382,9 +422,9 @@ hydramem/
 
 ## 📂 Datasets
 
-Per the Hack Hydra rules, suggested datasets are optional. **We brought our own dataset:** a deterministic synthetic corpus of 35 multi-turn sessions featuring temporal revisions, static facts, and multi-hop relationships, plus hand-crafted conflict fixtures.
+Per the Hack Hydra rules, suggested datasets are optional. **We brought our own dataset:** a deterministic synthetic corpus of 35 multi-turn sessions featuring temporal revisions, static facts, a[...]
 
-This lets us perfectly isolate and demonstrate graph-native temporal resolution, correct abstention, and multi-hop traversal without the noise of raw conversational data. The architecture is fully compatible with [LongMemEval](https://github.com/xiaowu0162/LongMemEval) / [BEAM](https://github.com/mohammadtavakoli78/BEAM) via the hybrid LLM extraction path (`hydramem/extraction.py`), which is designed to parse messy, real-world dialogue into our typed `MemoryFact` schema.
+This lets us perfectly isolate and demonstrate graph-native temporal resolution, correct abstention, and multi-hop traversal without the noise of raw conversational data. The architecture is full[...]
 
 ---
 
@@ -402,7 +442,7 @@ This lets us perfectly isolate and demonstrate graph-native temporal resolution,
 
 Released under the [MIT License](LICENSE).
 
-**Built with:** [HydraDB](https://hydradb.com) · [hydradb-sdk](https://pypi.org/project/hydradb-sdk/) · [Anthropic API](https://docs.anthropic.com) · [Pydantic](https://docs.pydantic.dev) · [pandas](https://pandas.pydata.org) · [scikit-learn](https://scikit-learn.org) · [Streamlit](https://streamlit.io)
+**Built with:** [HydraDB](https://hydradb.com) · [hydradb-sdk](https://pypi.org/project/hydradb-sdk/) · [Anthropic API](https://docs.anthropic.com) · [Pydantic](https://docs.pydantic.dev) · [[...]
 
 **Built for:** [Hack Hydra 2026](https://hackhydra.hydradb.com) · Track 3: Memory + Context Retrieval
 
