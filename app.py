@@ -31,8 +31,16 @@ st.markdown("**Deterministic agent memory with explicit revision chains and corr
 # ============================ SIDEBAR ============================
 with st.sidebar:
     st.header("⚙️ Configuration")
+    # Read from Streamlit secrets (cloud) or env var (local), fallback to manual input
+    _default_key = ""
+    try:
+        _default_key = st.secrets.get("HYDRA_DB_API_KEY", "")
+    except Exception:
+        _default_key = os.getenv("HYDRA_DB_API_KEY", "")
+    
     api_key = st.text_input("HydraDB API Key", type="password",
-                            value=os.getenv("HYDRA_DB_API_KEY", ""))
+                            value=_default_key,
+                            help="Pre-filled on deployed demo. Enter your own key for local use.")
     database_name = st.text_input("Database Name", value="hydramem_streamlit_v3")
 
     if st.button("🚀 Initialize Memory", use_container_width=True):
