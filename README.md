@@ -14,7 +14,7 @@
 [![Hack Hydra](https://img.shields.io/badge/Hack%20Hydra%202026-Track%203-8B5CF6)](https://hackhydra.hydradb.com)
 [![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](app.py)
 
-[**Demo Video**](TODO_YOUTUBE_LINK) · [**Live Demo**](TODO_DEPLOYED_LINK_OR_REMOVE) · [**Hack Hydra Submission**](https://hackhydra.hydradb.com)
+[**Demo Video**](TODO_YOUTUBE_LINK) · [**Live Demo**](https://hfnpknjkuna2nq8ofeuwhx.streamlit.app) · [**Hack Hydra Submission**](https://hackhydra.hydradb.com)
 
 </div>
 
