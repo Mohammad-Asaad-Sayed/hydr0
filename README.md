@@ -406,8 +406,6 @@ Released under the [MIT License](LICENSE).
 
 **Built for:** [Hack Hydra 2026](https://hackhydra.hydradb.com) · Track 3: Memory + Context Retrieval
 
-**Team:** TODO_YOUR_NAME
-
 ---
 
 <div align="center">
