@@ -124,36 +124,74 @@ ANSWERABLE / CONFLICTING / NO_EVIDENCE
 
 ---
 
+````markdown
 ## 🚀 Quickstart
 
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/TODO_YOUR_USERNAME/hydramem.git
-cd hydramem
+git clone https://github.com/Mohammad-Asaad-Sayed/hydr0.git
+cd hydr0
+```
 
+### 2. Create and activate a virtual environment
+
+POSIX (macOS / Linux):
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Windows (PowerShell):
+```powershell
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+.venv\Scripts\Activate.ps1
+```
+
+Windows (cmd.exe):
+```cmd
+python -m venv .venv
+.venv\Scripts\activate.bat
+```
+
+### 3. Install requirements
+
+```bash
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 2. Set your HydraDB API key
+### 4. Set your HydraDB API key
 
+POSIX:
 ```bash
-export HYDRA_DB_API_KEY="your_key_here"   # from dashboard.hydradb.com
+export HYDRA_DB_API_KEY="your_key_here"
 ```
 
-### 3. Run the terminal demo
+PowerShell:
+```powershell
+$env:HYDRA_DB_API_KEY = "your_key_here"
+```
+
+cmd.exe:
+```cmd
+set HYDRA_DB_API_KEY=your_key_here
+```
+
+### 5. Run the terminal demo
 
 ```bash
 python demo.py
 ```
 
-### 4. Or launch the Streamlit UI
+### 6. Run the Streamlit UI
 
 ```bash
 streamlit run app.py
 ```
+
+- Streamlit defaults to port 8501. If running inside Codespaces / a container, forward port 8501 and open the preview or browser.
+````
 
 ### Dependencies & environment
 
